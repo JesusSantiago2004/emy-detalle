@@ -165,17 +165,16 @@
 </head>
 <body>
     <div class="container">
-        <h1>¿Te gustaría conocernos mejor? <span class="heart">♥</span></h1>
-        <p>Sabia que te encantaria la idea Corazon...</p>
-        
+        <h1>¿Te gustaría conocernos mejor? <span class="heart">♥</span></h1>        
         <div class="buttons">
             <button id="btnYes">¡Claro que sí!</button>
             <button id="btnNo">Tal vez luego</button>
         </div>
         
         <div id="message" class="hidden">
-            ¡Qué bien! <span class="heart">♥</span><br>
+            ¡Qué bien! Sabia que te encantaria la idea Corazon... <span class="heart">♥</span><br>
             Prometo que valdrá la pena conocernos mejor.<br>
+
         </div>
     </div>
 
@@ -250,7 +249,7 @@
             moveButton();
             // Cambiamos temporalmente el texto para hacerlo más persuasivo
             if(btnNo.textContent === "Tal vez luego") {
-                btnNo.textContent = "Segura? 😊";
+                btnNo.textContent = "Seguro? 😊";
             } else {
                 btnNo.textContent = "Tal vez luego";
             }
