@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Nos conocemos mejor?</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            color: #333;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: #ff6b9d;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        p {
+            color: #5a6a8a;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #btnYes {
+            background-color: #4facfe;
+            color: white;
+        }
+
+        #btnNo {
+            background-color: #ff6b9d;
+            color: white;
+            position: relative;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        #btnYes:hover {
+            background-color: #3a8fd9;
+        }
+
+        #btnNo:hover {
+            background-color: #e0558a;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #message {
+            animation: fadeIn 1s ease;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            color: #4facfe;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .heart {
+            color: #ff6b9d;
+            font-size: 1.5em;
+            animation: pulse 1.5s infinite;
+            display: inline-block;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        /* Estilos para la lluvia de corazones */
+        .heart-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart-fall {
+            position: absolute;
+            color: #ff6b9d;
+            font-size: 20px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+                width: 85%;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            p {
+                font-size: 1em;
+            }
+            
+            button {
+                padding: 10px 25px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¿Te gustaría conocernos mejor? <span class="heart">♥</span></h1>
+        <p>Sabia que te encantaria la idea Corazon...</p>
+        
+        <div class="buttons">
+            <button id="btnYes">¡Claro que sí!</button>
+            <button id="btnNo">Tal vez luego</button>
+        </div>
+        
+        <div id="message" class="hidden">
+            ¡Qué bien! <span class="heart">♥</span><br>
+            Prometo que valdrá la pena conocernos mejor.<br>
+        </div>
+    </div>
+
+    <div id="heartRain" class="heart-rain hidden"></div>
+
+    <script>
+        const btnYes = document.getElementById('btnYes');
+        const btnNo = document.getElementById('btnNo');
+        const message = document.getElementById('message');
+        const container = document.querySelector('.container');
+        const heartRain = document.getElementById('heartRain');
+        
+        // Función para mover el botón No a una posición aleatoria
+        function moveButton() {
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = btnNo.getBoundingClientRect();
+            
+            const maxX = containerRect.width - btnRect.width - 20;
+            const maxY = containerRect.height - btnRect.height - 20;
+            
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            
+            btnNo.style.position = 'absolute';
+            btnNo.style.left = randomX + 'px';
+            btnNo.style.top = randomY + 'px';
+        }
+        
+        // Función para crear la lluvia de corazones
+        function createHeartRain() {
+            heartRain.classList.remove('hidden');
+            heartRain.innerHTML = '';
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart-fall');
+                    heart.innerHTML = '♥';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    heart.style.opacity = Math.random();
+                    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                    heartRain.appendChild(heart);
+                    
+                    // Eliminar el corazón después de que termine la animación
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 5000);
+                }, i * 200);
+            }
+        }
+        
+        btnNo.addEventListener('mouseover', moveButton);
+        btnNo.addEventListener('touchstart', moveButton);
+        
+        btnYes.addEventListener('click', function() {
+            message.classList.remove('hidden');
+            document.querySelector('.buttons').classList.add('hidden');
+            
+            // Cambiar el fondo a un gradiente romántico
+            document.body.style.background = 'linear-gradient(135deg, #ffcce6 0%, #ccf2ff 100%)';
+            
+            // Activar la lluvia de corazones
+            createHeartRain();
+            
+            // Continuar la lluvia de corazones cada 3 segundos
+            setInterval(createHeartRain, 3000);
+        });
+        
+        // Para dispositivos móviles, también mover al tocar
+        btnNo.addEventListener('click', function() {
+            moveButton();
+            // Cambiamos temporalmente el texto para hacerlo más persuasivo
+            if(btnNo.textContent === "Tal vez luego") {
+                btnNo.textContent = "Seguro? 😊";
+            } else {
+                btnNo.textContent = "Tal vez luego";
+            }
+        });
+    </script>
+</body>
+</html>
